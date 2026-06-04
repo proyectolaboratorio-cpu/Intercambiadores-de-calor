@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora - Intercambiadores de Calor | HeatExchange</title>
+    <link rel="stylesheet" href="heat-calculadora.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <i class="fas fa-fire"></i>
+                <span>HeatExchange</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="heat-index.html" class="nav-link">Inicio</a></li>
+                <li><a href="heat-index.html#servicios" class="nav-link">Servicios</a></li>
+                <li><a href="heat-index.html#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="calculator-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Tipos de Intercambiadores</h2>
+            <div class="exchanger-types">
+                <button class="type-btn active" data-type="paralelo">
+                    <i class="fas fa-arrows-alt-h"></i>
+                    <span>Flujo Paralelo</span>
+                </button>
+                <button class="type-btn" data-type="contracorriente">
+                    <i class="fas fa-arrows-alt-v"></i>
+                    <span>Contracorriente</span>
+                </button>
+                <button class="type-btn" data-type="cruzado">
+                    <i class="fas fa-arrows-alt"></i>
+                    <span>Flujo Cruzado</span>
+                </button>
+                <button class="type-btn" data-type="tubo-carcasa">
+                    <i class="fas fa-cube"></i>
+                    <span>Tubo-Carcasa</span>
+                </button>
+            </div>
+
+            <div class="info-box">
+                <h3>Información</h3>
+                <p>Selecciona el tipo de intercambiador y completa los parámetros para obtener el cálculo automático.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="calc-header">
+                <h1>Calculadora de Intercambiadores de Calor</h1>
+                <p>Ingresa los parámetros de diseño para calcular rendimiento térmico</p>
+            </div>
+
+            <!-- Form Section -->
+            <div class="calculator-form">
+                <div class="form-section">
+                    <h2><i class="fas fa-fluid"></i> Fluido Caliente</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Temperatura Entrada (°C)</label>
+                            <input type="number" id="t_entrada_h" value="80" placeholder="Ej: 80">
+                        </div>
+                        <div class="form-group">
+                            <label>Temperatura Salida (°C)</label>
+                            <input type="number" id="t_salida_h" value="40" placeholder="Ej: 40">
+                        </div>
+                        <div class="form-group">
+                            <label>Caudal (kg/s)</label>
+                            <input type="number" id="caudal_h" value="1" step="0.1" placeholder="Ej: 1">
+                        </div>
+                        <div class="form-group">
+                            <label>Cp (kJ/kg·°C)</label>
+                            <input type="number" id="cp_h" value="4.18" step="0.01" placeholder="Ej: 4.18">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-snowflake"></i> Fluido Frío</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Temperatura Entrada (°C)</label>
+                            <input type="number" id="t_entrada_c" value="20" placeholder="Ej: 20">
+                        </div>
+                        <div class="form-group">
+                            <label>Temperatura Salida (°C)</label>
+                            <input type="number" id="t_salida_c" value="50" placeholder="Ej: 50">
+                        </div>
+                        <div class="form-group">
+                            <label>Caudal (kg/s)</label>
+                            <input type="number" id="caudal_c" value="1.5" step="0.1" placeholder="Ej: 1.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Cp (kJ/kg·°C)</label>
+                            <input type="number" id="cp_c" value="4.18" step="0.01" placeholder="Ej: 4.18">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-cogs"></i> Parámetros de Diseño</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Coeficiente Global U (W/m²·K)</label>
+                            <input type="number" id="u_coeff" value="500" placeholder="Ej: 500">
+                        </div>
+                        <div class="form-group">
+                            <label>Área Superficial (m²)</label>
+                            <input type="number" id="area" value="10" step="0.1" placeholder="Ej: 10">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="calcular-btn" class="btn btn-calculate">
+                        <i class="fas fa-calculator"></i> Calcular
+                    </button>
+                    <button id="limpiar-btn" class="btn btn-reset">
+                        <i class="fas fa-redo"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultados" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Resultados</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>Calor Transferido</h3>
+                        <div class="result-value">
+                            <span id="q-calor">0</span>
+                            <span class="result-unit">kW</span>
+                        </div>
+                        <p class="result-label">Potencia térmica total</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>LMTD</h3>
+                        <div class="result-value">
+                            <span id="lmtd">0</span>
+                            <span class="result-unit">°C</span>
+                        </div>
+                        <p class="result-label">Diferencia Media Logarítmica</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Efectividad</h3>
+                        <div class="result-value">
+                            <span id="efectividad">0</span>
+                            <span class="result-unit">%</span>
+                        </div>
+                        <p class="result-label">Eficiencia del intercambiador</p>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>NTU</h3>
+                        <div class="result-value">
+                            <span id="ntu">0</span>
+                            <span class="result-unit">-</span>
+                        </div>
+                        <p class="result-label">Número de Unidades de Transferencia</p>
+                    </div>
+                </div>
+
+                <div class="detailed-results">
+                    <h3>Análisis Detallado</h3>
+                    <table class="results-table">
+                        <tbody>
+                            <tr>
+                                <td class="label">Caudal Caliente:</td>
+                                <td id="detail-m_h">0 kg/s</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Caudal Frío:</td>
+                                <td id="detail-m_c">0 kg/s</td>
+                            </tr>
+                            <tr>
+                                <td class="label">ΔT Entrada Caliente:</td>
+                                <td id="detail-dt_h">0 °C</td>
+                            </tr>
+                            <tr>
+                                <td class="label">ΔT Entrada Frío:</td>
+                                <td id="detail-dt_c">0 °C</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Calor Teórico Máximo:</td>
+                                <td id="detail-q-max">0 kW</td>
+                            </tr>
+                            <tr>
+                                <td class="label">Tipo de Intercambiador:</td>
+                                <td id="detail-tipo">Flujo Paralelo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="heat-index.html#contacto" class="btn btn-primary">
+                        <i class="fas fa-whatsapp"></i> Solicitar Acceso Completo
+                    </a>
+                    <button onclick="window.print()" class="btn btn-secondary">
+                        <i class="fas fa-print"></i> Imprimir Resultados
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state">
+                <i class="fas fa-calculator"></i>
+                <h3>Completa el formulario</h3>
+                <p>Ingresa los parámetros del intercambiador de calor y presiona calcular</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 HeatExchange | Calculadora profesional de intercambiadores de calor</p>
+    </footer>
+
+    <script src="heat-calculadora.js"></script>
+</body>
+</html>
