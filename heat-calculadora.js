@@ -1,6 +1,78 @@
 // HEAT EXCHANGE - Calculadora de Intercambiadores de Calor
 
 let tipoIntercambiador = 'paralelo';
+let tipoExchanger = 'coraza-tubos';
+
+// ============================================
+// DROPDOWN DE TIPOS DE FLUJO
+// ============================================
+
+// Toggle dropdown al hacer clic en el boton o en la flecha
+document.querySelectorAll('.type-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const dropdown = btn.closest('.dropdown');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        const icon = btn.querySelector('.dropdown-icon');
+
+        // Cerrar todos los demas dropdowns
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m !== menu) {
+                m.classList.remove('show');
+                m.closest('.dropdown').querySelector('.dropdown-icon')?.classList.remove('rotate');
+            }
+        });
+
+        // Toggle el dropdown actual
+        menu.classList.toggle('show');
+        icon.classList.toggle('rotate');
+    });
+});
+
+// Seleccionar tipo de flujo al hacer clic en un item del dropdown
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const flowType = item.dataset.flow;
+        const parentDropdown = item.closest('.dropdown');
+        const menu = parentDropdown.querySelector('.dropdown-menu');
+        const icon = parentDropdown.querySelector('.dropdown-icon');
+
+        // Marcar el item como activo
+        parentDropdown.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Cerrar el dropdown
+        menu.classList.remove('show');
+        icon.classList.remove('rotate');
+
+        // Actualizar el tipo de intercambiador activo
+        const typeBtn = parentDropdown.querySelector('.type-btn');
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+        typeBtn.classList.add('active');
+
+        // Guardar el tipo de intercambiador y flujo seleccionados
+        tipoIntercambiador = flowType;
+        const exchangerType = typeBtn.dataset.type;
+        const flowName = flowType === 'paralelo' ? 'Flujo Paralelo' : 'Contraflujo';
+        const exchangerName = typeBtn.querySelector('span').textContent;
+        document.getElementById('detail-tipo').textContent = exchangerName + ' - ' + flowName;
+    });
+});
+
+// Cerrar dropdowns al hacer clic fuera de ellos
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+        document.querySelectorAll('.dropdown-icon').forEach(icon => {
+            icon.classList.remove('rotate');
+        });
+    }
+});
+
 
 // Elementos del DOM
 const tipoButtons = document.querySelectorAll('.type-btn');

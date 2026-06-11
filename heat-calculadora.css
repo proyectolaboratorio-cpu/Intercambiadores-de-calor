@@ -158,6 +158,86 @@ body {
     font-size: 1.3rem;
 }
 
+/* ============================================
+   DROPDOWN DE TIPOS DE FLUJO
+   ============================================ */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    background: var(--white);
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+    color: var(--dark-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 107, 53, 0.08);
+    color: var(--primary-color);
+}
+
+.dropdown-item.active {
+    background: rgba(255, 107, 53, 0.12);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.dropdown-item i {
+    font-size: 1rem;
+    color: var(--accent-color);
+    width: 18px;
+    text-align: center;
+}
+
+.dropdown-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    font-size: 0.85rem !important;
+}
+
+.dropdown-icon.rotate {
+    transform: rotate(180deg);
+}
+
+
 .info-box {
     background: rgba(0, 78, 137, 0.08);
     border-left: 4px solid var(--secondary-color);
